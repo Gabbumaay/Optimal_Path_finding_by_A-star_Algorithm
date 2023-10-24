@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include<string.h>
 #define max_cities 60
 #define inf 99999.0
 
