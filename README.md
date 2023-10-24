@@ -22,8 +22,8 @@ This project implements the A* algorithm in C to find the shortest path in a gra
 ## Contributors
 - Siripurapu Madhusudhana Rao-2022CSB1127
 - Murru Sai Yaswanth-2022MCB1271
-- Vanjivaka Sai Ram-2022MCB1363
+- Vanjivaka SaiRam-2022MCB1363
 ## License
 This project is open-source and available under the [License Name] license. See the LICENSE file for details.
 
-Happy pathfinding!
+Good luck for your pathfinding!
