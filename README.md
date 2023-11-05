@@ -1,34 +1,16 @@
-# CS201 Shortest Path Finder - A* Algorithm
-## Introduction
-This project implements the A* algorithm in C to find the shortest path in a graph. The A* algorithm is a widely used pathfinding algorithm in computer science and is particularly effective for applications like route planning and navigation.
 
-## Features
-- A* algorithm implementation in C
-- Finds the shortest path between two nodes in a graph
-- Heuristic function for efficient pathfinding
-- Customizable input graph
-## Getting Started
-1. Clone the repository: git clone <https://github.com/Gabbumaay/project-k-cs203/>
-2. Compile the source code:
-3.   gcc <source_code_name>
-5. Run the program:
-6.  a.exe or a.out
 ## Usage
-1. Modify the input graph in the graph.c file.
-2. Compile the code as described in the "Getting Started" section.
-3. Run the program and follow the on-screen instructions to find the shortest path.
-4. instructions are as follows:
-5.   give the input file name
-6.   give whether you want the hop distance or not.
-7.   enter the start_city and the goal_city.
-8.   you will get the route map how to go.
-   
-## Course Information
-- Course Name: CS201 - Data Structures and Algorithms
-- Instructor: Anil shukla sir
-- Mentor: Sravanthi Chede
-## Contributors
-- Siripurapu Madhusudhana Rao-2022CSB1127
-- Murru Sai Yaswanth-2022MCB1271
-- Vanjivaka SaiRam-2022MCB1363
 
+1. Kindly follow the Instuctions....
+
+1) Download the input file named  "input.txt" in the main.
+2) while executing the code,it takes the input file by file handling.
+
+-> file contains following as inputs { no.of.cities, co-ordinates of the respective cities, distances matrix for the cities. } 
+
+3) you will be prompted whether to go with the HOP path or not 
+   Enter 0 / 1 
+      >> if '0' is pressed.
+           You will get the output of Rough Mapping, where to go and all.
+      >> if '1' is pressed.
+            You will get the HOP path (least visits) while travelling from starting_city to the Goal_city."
