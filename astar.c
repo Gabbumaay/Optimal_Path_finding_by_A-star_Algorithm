@@ -56,8 +56,7 @@ double Heuristic(Node* current, Node* goal_node) {
 }
 
 double distance(Node* current, Node* neighbor) {
-    double t=(double)1.6093*dist[current->value][neighbor->value];
-    return t;
+    return (double)dist[current->value][neighbor->value];
 }
 
 int Is_Openlist_Empty() {
@@ -115,7 +114,7 @@ void Remove_From_Openlist(Node* node) {
 }
 
 Node* A_Star_Search(Node* start_node, Node* goal_node) {
-    int cost;
+    double cost;
     open_list_size = 0;
     closed_list_size = 0;
 
@@ -135,7 +134,7 @@ Node* A_Star_Search(Node* start_node, Node* goal_node) {
                 Node* neighbor = Create_Node(i);
 
                 if (neighbor->value == goal_node->value) {
-                    neighbor->g = current->g + distance(current, neighbor);
+                    neighbor->g = current->g + (1.60934)*distance(current, neighbor);
                     neighbor->h = Heuristic(neighbor, goal_node);
                     neighbor->hops = current->hops + 1;
                     neighbor->f = neighbor->g + neighbor->h + w*neighbor->hops;
@@ -147,7 +146,7 @@ Node* A_Star_Search(Node* start_node, Node* goal_node) {
                     continue;
                 }
 
-                cost = current->g + distance(current, neighbor);
+                cost = current->g + (1.60934)*distance(current, neighbor);
 
                 if (!open_list[i] || cost < neighbor->g) {
                     neighbor->parent = current;
@@ -172,7 +171,7 @@ int main() {
     printf("Enter 1 if you want less hop path else enter 0\n");
     scanf("%d",&w);
 
-    FILE *file = fopen("data.txt", "r");
+    FILE *file = fopen("input.txt", "r");
     if (file == NULL) {
         printf("Failed to open the file.\n");
         return 1;
@@ -187,7 +186,7 @@ int main() {
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            fscanf(file, "%lf", &dist[i][j]);
+            fscanf(file, "%d", &dist[i][j]);
         }
     }
 
