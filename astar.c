@@ -1,165 +1,252 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
-#include<string.h>
-#define max_cities 60
-#define inf 99999.0
+#include <string.h>
 
-typedef struct {
-    char name[50];
-    double x, y;
-} city;
+#define Max_Cities 100
 
-typedef struct {
-    double g_score;
-    double f_score;
-    city city;
-} node;
+int N; // Number of Cities
+double X[Max_Cities]; // Latitudes
+double Y[Max_Cities]; // Longitudes
+int  dist[Max_Cities][Max_Cities]; // Distance between cities
+char city[Max_Cities][20]; // City names
+int w;//weight for the heuristic
 
-double calculate_distance(city city1, city city2) {
-    double dx = city1.x - city2.x;
-    double dy = city1.y - city2.y;
-    return sqrt(dx * dx + dy * dy);
+
+struct node {
+    int value; // Identity number
+    double g; // Cost from the start node
+    double h; // Heuristic value
+    double f; // f = g + h
+    int hops; // Number of hops
+    char name[20]; // City name
+    struct node* parent;
+};
+
+typedef struct node Node;
+
+Node* open_list[Max_Cities];
+Node* closed_list[Max_Cities];
+
+int open_list_size = 0;
+int closed_list_size = 0;
+
+Node* Create_Node(int vertex) {
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    new_node->value = vertex;
+    new_node->g = 0;
+    new_node->h = 0;
+    new_node->f = 0;
+    new_node->hops = 0;
+    new_node->parent = NULL;
+    return new_node;
 }
 
-void astar(city cities[], int n, int start, int goal) {
-    double g_scores[max_cities];
-    double f_scores[max_cities];
-    bool open_set[max_cities] = {false};
-    bool closed_set[max_cities] = {false};
-    int came_from[max_cities] = {-1};
+double Heuristic(Node* current, Node* goal_node) {
+    double d_lat = (X[current->value] - X[goal_node->value]) * M_PI / 180.0;
+    double d_lon = (Y[current->value] - Y[goal_node->value]) * M_PI / 180.0;
 
-    for (int i = 0; i < n; i++) {
-        g_scores[i] = inf;
-        f_scores[i] = inf;
+    double lat1 = (X[current->value]) * M_PI / 180.0;
+    double lat2 = (X[goal_node->value]) * M_PI / 180.0;
+
+    double a = pow(sin(d_lat / 2), 2) + pow(sin(d_lon / 2), 2) * cos(lat1) * cos(lat2);
+    double rad = 6371.0;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+
+double distance(Node* current, Node* neighbor) {
+    double t=(double)1.6093*dist[current->value][neighbor->value];
+    return t;
+}
+
+int Is_Openlist_Empty() {
+    return open_list_size == 0;
+}
+
+Node* Get_Lowest_Node() {
+    Node* lowest_node = open_list[0];
+    int lowest_f = lowest_node->f;
+
+    for (int i = 1; i < N; i++) {
+        if (open_list[i] == NULL) {
+            continue;
+        } 
+        else 
+        if(w==1){
+        if (open_list[i]->f < lowest_f || (open_list[i]->f == lowest_f && open_list[i]->hops < lowest_node->hops)) {
+            lowest_f = open_list[i]->f;
+            lowest_node = open_list[i];
+          }
+       }
+
+        if(w==0){
+            if(open_list[i]->f < lowest_f){
+                lowest_f=open_list[i]->f;
+                lowest_node = open_list[i];
+            }
+        }
     }
 
-    g_scores[start] = 0;
-    f_scores[start] = calculate_distance(cities[start], cities[goal]);
 
-    while (true) {
-        int current = -1;
-        double min_f = inf;
-        for (int i = 0; i < n; i++) {
-            if (open_set[i] && f_scores[i] < min_f) {
-                current = i;
-                min_f = f_scores[i];
-            }
+    return lowest_node;
+}
+
+void Add_To_Open(Node* node) {
+    open_list[open_list_size] = node;
+    open_list_size++;
+}
+
+void Add_To_Closed(Node* node) {
+    closed_list[closed_list_size] = node;
+    closed_list_size++;
+}
+
+void Remove_From_Openlist(Node* node) {
+    int i = 0;
+    while (open_list[i] != node) {
+        i++;
+    }
+    for (; i < open_list_size - 1; i++) {
+        open_list[i] = open_list[i + 1];
+    }
+    open_list[open_list_size - 1] = NULL;
+    open_list_size--;
+}
+
+Node* A_Star_Search(Node* start_node, Node* goal_node) {
+    int cost;
+    open_list_size = 0;
+    closed_list_size = 0;
+
+    Add_To_Open(start_node);
+
+    while (!Is_Openlist_Empty()) {
+        Node* current = Get_Lowest_Node();
+
+        if (current->value == goal_node->value) {
+            return current;
         }
+        Remove_From_Openlist(current);
+        Add_To_Closed(current);
 
-        if (current == -1) {
-            printf("No path found.\n");
-            return;
-        }
+        for (int i = 0; i < N; i++) {
+            if (dist[current->value][i] > 0) {
+                Node* neighbor = Create_Node(i);
 
-        if (current == goal) {
-            int path[max_cities];
-            int path_length = 0;
-            int node = goal;
-            while (node != -1) {
-                path[path_length++] = node;
-                node = came_from[node];
-            }
+                if (neighbor->value == goal_node->value) {
+                    neighbor->g = current->g + distance(current, neighbor);
+                    neighbor->h = Heuristic(neighbor, goal_node);
+                    neighbor->hops = current->hops + 1;
+                    neighbor->f = neighbor->g + neighbor->h + w*neighbor->hops;
+                    neighbor->parent = current;
+                    return neighbor;
+                }
 
-            printf("Shortest Path: %s", cities[path[path_length - 1]].name);
-            for (int i = path_length - 2; i >= 0; i--) {
-                printf(" -> %s", cities[path[i]].name);
-            }
-            printf("\n");
-            printf("Distance: %.2f\n", g_scores[goal]);
-            return;
-        }
+                if (closed_list[i]) {
+                    continue;
+                }
 
-        open_set[current] = false;
-        closed_set[current] = true;
+                cost = current->g + distance(current, neighbor);
 
-        for (int neighbor = 0; neighbor < n; neighbor++) {
-            if (cities[current].name != cities[neighbor].name && !closed_set[neighbor]) {
-                double tentative_g_score = g_scores[current] + calculate_distance(cities[current], cities[neighbor]);
+                if (!open_list[i] || cost < neighbor->g) {
+                    neighbor->parent = current;
+                    neighbor->g = cost;
+                    neighbor->h = Heuristic(neighbor, goal_node);
+                    neighbor->f = neighbor->g + neighbor->h + w*neighbor->hops;
+                    neighbor->hops = current->hops + 1;
 
-                if (!open_set[neighbor] || tentative_g_score < g_scores[neighbor]) {
-                    came_from[neighbor] = current;
-                    g_scores[neighbor] = tentative_g_score;
-                    f_scores[neighbor] = g_scores[neighbor] + calculate_distance(cities[neighbor], cities[goal]);
-                    if (!open_set[neighbor]) {
-                        open_set[neighbor] = true;
+                    if (!open_list[i]) {
+                        Add_To_Open(neighbor);
                     }
                 }
             }
         }
     }
+
+    return NULL;
 }
 
 int main() {
-    int n, start, goal;
+    
+    printf("Enter 1 if you want less hop path else enter 0\n");
+    scanf("%d",&w);
 
-    printf("Enter the number of cities (max 60): ");
-    scanf("%d", &n);
-
-    if (n < 2 || n > max_cities) {
-        printf("Invalid number of cities.\n");
+    FILE *file = fopen("data.txt", "r");
+    if (file == NULL) {
+        printf("Failed to open the file.\n");
         return 1;
     }
 
-    city cities[max_cities];
+    fscanf(file, "%d", &N);
+    
 
-    for (int i = 0; i < n; i++) {
-        printf("Enter the name of City %d: ", i + 1);
-        scanf("%s", cities[i].name);
-        printf("Enter the x-coordinate of City %d: ", i + 1);
-        scanf("%lf", &cities[i].x);
-        printf("Enter the y-coordinate of City %d: ", i + 1);
-        scanf("%lf", &cities[i].y);
+    for (int i = 0; i < N; i++) {
+        fscanf(file, "%s %lf %lf", city[i], &X[i], &Y[i]);
     }
 
-    double connectivity[max_cities][max_cities];
-
-    printf("Enter distances between cities (0 if not directly connected):\n");
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (i == j) {
-                connectivity[i][j] = 0;
-            } else {
-                printf("Distance from %s to %s: ", cities[i].name, cities[j].name);
-                scanf("%lf", &connectivity[i][j]);
-            }
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            fscanf(file, "%lf", &dist[i][j]);
         }
     }
 
-    char start_city[50];
-    char goal_city[50];
+    fclose(file);
 
-    while (true) {
-        printf("Enter the start city (or 'exit' to quit): ");
-        scanf("%s", start_city);
+    char start_city[20];
+    char goal_city[20];
 
-        if (strcmp(start_city, "exit") == 0) {
-            break;
-        }
-
-        printf("Enter the goal city: ");
-        scanf("%s", goal_city);
-
-        start = -1;
-        goal = -1;
-        for (int i = 0; i < n; i++) {
-            if (strcmp(cities[i].name, start_city) == 0) {
-                start = i;
-            }
-            if (strcmp(cities[i].name, goal_city) == 0) {
-                goal = i;
-            }
-        }
-
-        if (start == -1 || goal == -1) {
-            printf("City not found.\n");
-            continue;
-        }
-
-        astar(cities, n, start, goal);
+    for(int i=0;i<N;i++){
+        printf("%s\n",city[i]);
     }
 
-    return 0;
+    printf("Enter the start city: ");
+    scanf("%s", start_city);
+    printf("Enter the goal city: ");
+    scanf("%s", goal_city);
+
+    int start_node = -1;
+    int goal_node = -1;
+    for (int i = 0; i < N; i++) {
+        if (strcmp(city[i], start_city) == 0) {
+            start_node = i;
+        }
+        if (strcmp(city[i], goal_city) == 0) {
+            goal_node = i;
+        }
+    }
+
+    if (start_node == -1) {
+        printf("Start city not found.\n");
+        printf("Enter correct spelling from the list above.\n");
+        return 1;
+    }
+
+    if ( goal_node == -1) {
+        printf(" Goal city not found.\n");
+        printf("Enter correct spelling from the list above.\n");
+        return 1;
+    }
+
+    Node* start = Create_Node(start_node);
+    Node* goal = Create_Node(goal_node);
+
+    Node* final = A_Star_Search(start, goal);
+
+    if (final) {
+        if(w){
+        printf("Path based on Less-Hop Distance: ");
+        }
+        while (final != NULL) {
+            printf("%s", city[final->value]);
+            final = final->parent;
+            if (final != NULL) {
+                printf(" <<<---- ");
+            }
+        }
+}
+ else {
+        printf("No path found.\n");
+    }
+
 }
