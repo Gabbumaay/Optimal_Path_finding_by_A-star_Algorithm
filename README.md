@@ -1,12 +1,12 @@
 
 ## Usage
 
-1. Kindly follow the Instuctions....
+ Kindly follow the Instuctions....
 
 1) Download the input file named  "input.txt" in the main.
-2) while executing the code,it takes the input file by file handling.
+2) while executing the code,it takes the input file as an input.
 
--> file contains following as inputs { no.of.cities, co-ordinates of the respective cities, distances matrix for the cities. } 
+// It possess following parameters as inputs { no.of.cities, co-ordinates of the respective cities, distances matrix for the cities.} 
 
 3) you will be prompted whether to go with the HOP path or not 
    Enter 0 / 1 
