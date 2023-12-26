@@ -4,9 +4,9 @@
  Kindly follow the Instuctions....
 
 1) Download the input file named  "input.txt" in the main.
-2) while executing the code,it takes the input file as an input.
+2) while executing the code, it takes the file as an input.
 
-// It possess following parameters as inputs { no.of.cities, co-ordinates of the respective cities, distances matrix for the cities.} 
+// It possess following - no.of.cities, co-ordinates of the respective cities, distances matrix for the cities.
 
 3) you will be prompted whether to go with the HOP path or not 
    Enter 0 / 1 
