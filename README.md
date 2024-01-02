@@ -1,4 +1,23 @@
 
+## for code - refer "a.star.c"
+
+It's regarding a mini-application named "Optimal_Path_Finder" developed with the help of A-star algorithm .
+Following are the Heuiristics.
+
+**Manhattan Distance Heuristic**: The Manhattan distance heuristic is commonly used in grid-based pathfinding, such as in games or robotics. It calculates the sum of the horizontal and vertical distances from the current node to the goal node, assuming only orthogonal movements are allowed.
+
+**Euclidean Distance Heuristic:** The Euclidean distance heuristic is used in situations where diagonal movements are allowed. It calculates the straight-line (Euclidean) distance between the current node and the goal node.
+
+**Diagonal Distance Heuristic:** This heuristic is used in grid-based environments where diagonal moves are allowed. It estimates the distance by considering both horizontal and vertical moves, as well as diagonal moves, using a combination of these distances.
+
+**Octile Distance Heuristic:** The octile distance heuristic is a variation of the diagonal distance heuristic that assumes diagonal moves are more costly. It uses a weighted combination of horizontal, vertical, and diagonal distances, reflecting the higher cost of diagonal moves.
+
+**Custom Heuristics:** In many cases, custom heuristics specific to the problem domain can be designed. These heuristics might take into account domain-specific knowledge and features to estimate the cost more accurately.
+
+-> It is made using a custom heuiristic.
+Real time data had been taken in the input file and the distances are computed using Haversine Formula.
+
+
 ## Usage
 
  Kindly follow the Instuctions....
