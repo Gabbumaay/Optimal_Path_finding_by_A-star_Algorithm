@@ -1,7 +1,14 @@
 
-## for code - refer "a.star.c"
+It's regarding a mini-application named **Optimal_Path_Finder** developed with the help of **A-star algorithm** .
+Most widely known form of best-first search is called A*-search.
+It evaluated nodes by combining g(n) & h(n)
+  f(n) = g(n) + h(n)      g(n) - the cost to reach the node
+                          h(n) - the cost to get from the node to the destination.
+finally f(n) becomes the estimated cost of the cheapest solution through n.
 
-It's regarding a mini-application named "Optimal_Path_Finder" developed with the help of A-star algorithm .
+   If we are trying to find the cheapest solution, a reasonable thing to try first is the node with the lowest value of g(n) + h(n). It turns out that this strategy is more than just reasonable: provided that the heuristic function h(n) satisfies certain conditions, A* search is both complete and optimal. The algorithm is identical to UNIFORM-COST-SEARCH except that A* uses g+h instead of g.
+   ![image](https://github.com/Gabbumaay/Optimal_Path_finding_by_A-star_Algorithm/assets/120372287/7ae7e43e-caa7-4982-82c5-3cd869fa4846)
+
 Following are the Heuiristics.
 
 **Manhattan Distance Heuristic**: The Manhattan distance heuristic is commonly used in grid-based pathfinding, such as in games or robotics. It calculates the sum of the horizontal and vertical distances from the current node to the goal node, assuming only orthogonal movements are allowed.
@@ -19,17 +26,5 @@ Real time data had been taken in the input file and the distances are computed u
 
 * _Input file had been generated using Google Maps API._
 ## Usage
+To run this, kindly follow readme.txt.
 
- Kindly follow the Instuctions....
-
-1) Download the input file named  "input.txt" in the main.
-2) while executing the code, it takes the file as an input.
-
-// It possess following - no.of.cities, co-ordinates of the respective cities, distances matrix for the cities.
-
-3) you will be prompted whether to go with the HOP path or not 
-   Enter 0 / 1 
-       if '0' is pressed.
-           You will get the output of Rough Mapping, where to go and all.
-       if '1' is pressed.
-            You will get the HOP path (least visits) while travelling from starting_city to the Goal_city."
