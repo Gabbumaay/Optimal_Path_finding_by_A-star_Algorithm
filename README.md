@@ -1,16 +1,19 @@
 
-It's regarding a mini-application named **Optimal_Path_Finder** developed with the help of **A-star algorithm** .
-Most widely known form of best-first search is called A*-search minimizes the total estimated solution cost.
+It's regarding a mini-application named **Optimal_Path_Finder** developed with the help of **A-star algorithm**. Most widely known form of best-first search is called A*-search minimizes the total estimated solution cost.
 It evaluated nodes by combining g(n) & h(n)
-  **f(n) = g(n) + h(n)**      g(n) - the cost to reach the node
-                          h(n) - the cost to get from the node to the destination.
+
+  **f(n) = g(n) + h(n)**    
+  
+  g(n) - the cost to reach the node
+  h(n) - the cost to get from the node to the destination.
+  
 finally f(n) becomes the estimated cost of the cheapest solution through n.
 
-   If we are trying to find the cheapest solution, a reasonable thing to try first is the node with the lowest value of g(n) + h(n). It turns out that this strategy is more than just reasonable: provided that the heuristic function h(n) satisfies certain conditions, A* search is both complete and optimal. The algorithm is identical to UNIFORM-COST-SEARCH except that A* uses g+h instead of g.
+   If we are trying to find the cheapest solution, a reasonable thing to try first is the node with the lowest value of g(n) + h(n). It turns out that this strategy is more than just reasonable: provided that the heuristic function h(n) satisfies certain conditions, A* search is both complete and optimal. The algorithm is identical to _UNIFORM-COST-SEARCH_ except that A* uses g+h instead of g.
 
 **Conditions for optimality: Admissibility and Consistency**
  The first condition we require for optimality is that h(n) be an admissible heuristic. An admissible heuristic is one that never overestimates the c9ost to reach the goal. Because g(n) is the actual cost to reach n along the current path, and f(n) = g(n) + h(n), we have as an immediate consequence that f(n) never overestimates the cost of a solution along the current path through n.
-   Admissible heuristics are be nature optimistic because they think the cost of solving the problem is less than it actually is . An obvious example of an admissible heuristic is the straight-line distance hSLD that we used in getting to Bucharest. Straight-line distance is
+   _Admissible heuristics_ are be nature optimistic because they think the cost of solving the problem is less than it actually is . An obvious example of an admissible heuristic is the straight-line distance hSLD that we used in getting to Bucharest. Straight-line distance is
 admissible because the shortest path between any two points is a straight line, so the straight line cannot be an overestimate.
 
 ![Screenshot from 2024-05-07 09-25-12](https://github.com/Gabbumaay/Optimal_Path_finding_by_A-star_Algorithm/assets/120372287/9f65da41-42d2-43a7-bd45-4ffdb5fbe8ab)
@@ -33,6 +36,7 @@ Following are the Heuiristics.
 -> It is made using a custom heuiristic.
 Real time data had been taken in the input file and the distances are computed using Haversine Formula.
 
+_You can find more in this book_: https://people.engr.tamu.edu/guni/csce421/files/AI_Russell_Norvig.pdf
 
 
 * _Input file had been generated using Google Maps API._
