@@ -19,6 +19,8 @@ For optimality, the heuristic `h(n)` must be admissible. An admissible heuristic
 
 _Admissible heuristics_ are optimistic because they assume the cost of solving the problem is less than it actually is. An example of an admissible heuristic is the straight-line distance `hSLD` used for getting to Bucharest. The straight-line distance is admissible because the shortest path between any two points is a straight line, which cannot be an overestimate.
 
+![A* Tree Search Progress](https://github.com/Gabbumaay/Optimal_Path_finding_by_A-star_Algorithm/assets/120372287/9f65da41-42d2-43a7-bd45-4ffdb5fbe8ab)
+
 The above figure shows the progress of an A\* tree search for Bucharest.
 
 ## Heuristics
